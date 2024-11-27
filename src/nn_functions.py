@@ -2,6 +2,7 @@ import numpy as np
 from random import randint, choice, shuffle
 from constants import *
 from shape_generator import load
+import copy
 
 def linear(x, W, b):
     return x @ W + b
@@ -140,7 +141,7 @@ def full_train(data):
         minE = min(best_loss, E)
         if minE < best_loss:
             best_loss = minE
-            best = (epoch, W1, b1, W2, b2)
+            best = (copy.copy(epoch), W1.copy(), b1.copy(), W2.copy(), b2.copy())
         # printing, plotting
         epoch_loss.append(E)
         # if epoch % EVERY_EPOCH == 0:
@@ -207,7 +208,7 @@ def batch_train(data):
         minE = min(best_loss, E)
         if minE < best_loss:
             best_loss = minE
-            best = (epoch, W1, b1, W2, b2)
+            best = (copy.copy(epoch), W1.copy(), b1.copy(), W2.copy(), b2.copy())
 
         # update
         W1 = W1 - LEARNING_RATE * dW1
