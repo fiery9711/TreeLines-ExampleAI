@@ -1,8 +1,5 @@
 import numpy as np
-from random import randint, choice, shuffle
-from constants import *
-from shape_generator import load
-import copy
+from nn_constants import *
 
 def linear(x, W, b):
     return x @ W + b
@@ -59,7 +56,7 @@ def classify_batch(y, num_classes):
         y_full[j, yj] = 1
     return y_full
 
-def simple_train(data):
+def random_params():
     W1 = np.random.rand(INTPUT_LAYER, HIDDEN_LAYER)
     b1 = np.random.rand(1, HIDDEN_LAYER)
     W2 = np.random.rand(HIDDEN_LAYER, OUTPUT_LAYER)
@@ -68,6 +65,7 @@ def simple_train(data):
     W1 = (W1 - 0.5) * 2 * np.sqrt(1/INTPUT_LAYER)
     b1 = (b1 - 0.5) * 2 * np.sqrt(1/INTPUT_LAYER)
     W2 = (W2 - 0.5) * 2 * np.sqrt(1/HIDDEN_LAYER)
+<<<<<<< HEAD
     b2 = (b2 - 0.5) * 2 * np.sqrt(1/HIDDEN_LAYER) 
     epoch_loss = [] 
 
@@ -245,22 +243,29 @@ def batch_train(data):
     return best_loss, best, epoch_loss
 
 def predict(x, best):
+=======
+    b2 = (b2 - 0.5) * 2 * np.sqrt(1/HIDDEN_LAYER)
+    return W1, b1, W2, b2
+
+
+def predict(x, params):
+>>>>>>> eaa6c708d471f26beab548c488e86a89853f2839
     # forward
-    _ , W1, b1, W2, b2 = best
+    W1, b1, W2, b2 = params
     t = linear(x, W1, b1)
     h = relu(t)
     u = linear(h, W2, b2)
     z = softmax(u)
     return z
 
-def accuracy(best, data):
+def accuracy(params, data):
     corrects = []
     wrongs = []
     correct = 0
     wrong = 0
     size = len(data)
     for x, y in data:
-        z = predict(x, best)
+        z = predict(x, params)
         yp = np.argmax(z)
         if yp == y:
             correct += 1
@@ -274,7 +279,15 @@ def accuracy(best, data):
     return avg, corrects, wrongs
 
 
-
-
-
-
+def mean_loss(loss, epochs=EPOCHS):
+    n = len(loss)
+    c = n // epochs
+    if c == 0:
+        c = 1
+    r = []
+    for i in range(epochs):
+        s = 0
+        for l in loss[i*c:i*c+c]:
+            s += l
+        r.append(s if c == 0 else s/c)
+    return r

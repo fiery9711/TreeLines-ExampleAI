@@ -1,5 +1,5 @@
 from random import randint, choice, shuffle
-from constants import DATASET_DIR, MIN_SHAPE_VALUE, MAX_SHAPE_VALUE, SHAPE_COUNT, DATASET_NAME
+from nn_constants import DATASET_DIR, MIN_SHAPE_VALUE, MAX_SHAPE_VALUE, SHAPE_COUNT, DATASET_NAME
 
 def shape(yk):
     rand = lambda: randint(MIN_SHAPE_VALUE, MAX_SHAPE_VALUE)
@@ -41,7 +41,7 @@ def shape(yk):
 def load(filename = DATASET_NAME):
     import pickle
     from os.path import join
-    with open(join(DATASET_DIR, DATASET_NAME), "rb") as f:
+    with open(join(DATASET_DIR, filename), "rb") as f:
         return pickle.load(f)
 
 def shape_generator(n):
@@ -50,18 +50,36 @@ def shape_generator(n):
         y = randint(0, 6)
         l.append(shape(y))
     return l
+import pickle
+from os.path import join
+def many():
+    
+    for shc in [100, 500, 1000]:
+        print(f"Creating dataset {shc} ...")
+        SHAPE_COUNT = shc
+        train_count = int(SHAPE_COUNT * 0.6)
+        test_count = int(SHAPE_COUNT * 0.4)
+        print(train_count, test_count)
+        dataset_filename = f"treelines-{SHAPE_COUNT}-{MIN_SHAPE_VALUE}-{MAX_SHAPE_VALUE}.bin"
+        dataset = {
+            "train" : shape_generator(train_count),
+            "test" : shape_generator(test_count)
+        }
+        with open(join(DATASET_DIR, dataset_filename), "wb") as f:
+            pickle.dump(dataset, f)
 
-if __name__ == "__main__":
-    import pickle
-    from os.path import join
-    print("Creating dataset ...")
-    train_count = SHAPE_COUNT // 100 * 70
-    val_count = SHAPE_COUNT // 100 * 25
-    test_count = SHAPE_COUNT // 100 * 30
+def one():
+    train_count = int(SHAPE_COUNT * 0.6)
+    test_count = int(SHAPE_COUNT * 0.4)
+    print(train_count, test_count)
     dataset = {
         "train" : shape_generator(train_count),
         "test" : shape_generator(test_count)
     }
     with open(join(DATASET_DIR, DATASET_NAME), "wb") as f:
         pickle.dump(dataset, f)
+
+if __name__ == "__main__":
+    #many()
+    one()
     print("done.")
