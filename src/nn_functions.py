@@ -7,6 +7,27 @@ def linear(x, W, b):
 def relu(x):
     return np.maximum(0, x)
 
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_derivative(x):
+    sig = sigmoid(x)
+    return sig * (1 - sig)
+
+
+def soft_relu(x):
+    return np.log(1 + np.exp(x))
+
+def soft_relu_derivative(x):
+    expx = np.exp(x)
+    return expx / (1 + expx)
+
+def activation(x):
+    return soft_relu(x)
+
+def activation_derivative(x):
+    return soft_relu_derivative(x)
+
 def relu_derivative(x):
     return (x >= 0).astype(float)
 
