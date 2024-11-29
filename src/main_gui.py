@@ -125,7 +125,7 @@ class GUI:
         
         if y == 0:
             canvas.create_oval(175, 175, 225, 225, outline="black", fill="lightblue", width=2)  # Aylana
-            shape_name = "Aylana"
+            shape_name = "Nuqta"
         elif y == 1:
             canvas.create_line(50, 50, 350, 350, fill="black", width=2)  # Kesma
             shape_name = "Kesma"

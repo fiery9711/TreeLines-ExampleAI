@@ -50,9 +50,9 @@ def train(dataset_filename, show = False):
     batch = Model("Batch data train method")
     batch.set_value(W1, bs1, W2, bs2)
 
-    simple.save(f"simple-E{EPOCHS}-S{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.bin")
-    full.save(f"full-E{EPOCHS}-S{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.bin")
-    batch.save(f"batch-E{EPOCHS}-S{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.bin")
+    simple.save(f"demo-simple-E{EPOCHS}-S{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.bin")
+    full.save(f"demo-full-E{EPOCHS}-S{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.bin")
+    batch.save(f"demo-batch-E{EPOCHS}-S{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.bin")
 
     figure, axis = plt.subplots(3, 3)
     if not show:
@@ -115,18 +115,20 @@ def train(dataset_filename, show = False):
         manager.full_screen_toggle()
         plt.tight_layout()
         plt.show()
-    figure.savefig(join(PLOT_DIR, f"plots-E{EPOCHS}-SH{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.png"))
+    figure.savefig(join(PLOT_DIR, f"demo-plots-E{EPOCHS}-SH{SHAPE_COUNT}-MN{MIN_SHAPE_VALUE}-MX{MAX_SHAPE_VALUE}.png"))
     plt.close(figure)
     print("done.")
 
 def linear():
-    for e in [100, 500, 1000]:
-        for s in [100, 500, 1000]:
+    global SHAPE_COUNT
+    global EPOCHS
+    for e in [100, 1000]:
+        for s in [100, 1000]:
             SHAPE_COUNT = s
             EPOCHS = e
             datasetfilename = f"treelines-{SHAPE_COUNT}-{MIN_SHAPE_VALUE}-{MAX_SHAPE_VALUE}.bin"
             train(datasetfilename)
 
 if __name__ == "__main__":
-    #linear()
-    train(DATASET_NAME, True)
+    linear()
+    #train(DATASET_NAME, True)
